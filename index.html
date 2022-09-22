@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .input-content {
+            display: flex;
+
+        }
+
+        #random-content {
+            font-size: 20rem;
+        }
+    </style>
+</head>
+
+<body style="margin: 0px;">
+    <div class="container">
+        <div id="content"></div>
+        <div id="button"></div>
+    </div>
+</body>
+
+<script>
+
+    const htmlInputs = `
+        <div class="input-content">
+            Entre&nbsp;
+            <input id="init" oninput='validate(event)' class="enters" type="text" />
+            &nbsp;e&nbsp;
+            <input id="until" oninput='validate(event)' class="enters" type="text" />
+        </div>`
+    const htmlButtonStart = `<button id="random-button" onclick="startRandom()" disabled>Sortear</button>`
+
+
+    const htmlNumber = `
+        <div id="random-content">
+            <label id="random-number"></label>
+        </div>`
+    const htmlButtonStop = `<button onclick="back()">Limpar</button>`
+
+    let intervalControler;
+    let timeoutControler;
+    const intervalRandom = (init, until) => setInterval(() => {
+        document.getElementById("random-number").innerHTML = randomNumber(init, until);
+    }, 80);
+
+    const getRandomNumber = (init, until) => setTimeout(() => {
+        clearInterval(intervalControler);
+        document.getElementById("random-number").innerHTML = randomNumber(init, until);
+    }, 3 * 1000);
+
+    function randomNumber(init, until) {
+        return Math.floor(Math.random() * (parseInt(until) - init + 1)) + parseInt(init);
+    }
+
+    function startRandom() {
+        clearInterval(intervalControler);
+
+        const init = document.getElementById("init").value;
+        const until = document.getElementById("until").value;
+
+        document.getElementById("content").innerHTML = htmlNumber;
+        document.getElementById("button").innerHTML = htmlButtonStop;
+
+        intervalControler = intervalRandom(init, until);
+        timeoutControler = getRandomNumber(init, until);
+    }
+
+    function back() {
+        clearInterval(intervalControler);
+        clearTimeout(timeoutControler);
+        initialContent();
+    }
+
+    function initialContent() {
+        document.getElementById("content").innerHTML = htmlInputs;
+        document.getElementById("button").innerHTML = htmlButtonStart;
+    }
+
+    function validate(evt) {
+        if (evt.target.value) {
+            let newInputValueMatch = evt.target.value.match(/\d+/g);
+            let newValue = "";
+
+            if (newInputValueMatch != null) {
+                newValue =  newInputValueMatch.join('');
+            } 
+
+            evt.target.value = newValue
+        }
+
+        if (enableButton()) {
+            document.querySelector("button").disabled = false;
+        } else {
+            document.querySelector("button").disabled = true;
+        }
+    }
+
+    function enableButton() {
+        const init = document.getElementById("init").value;
+        const until = document.getElementById("until").value;
+
+        return (init != null && until != null && parseInt(init) < parseInt(until));
+    }
+
+    initialContent()
+
+</script>
+
+</html>
