@@ -1,0 +1,60 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#main-content {
+    display: flex;
+    align-items: center;
+}
+
+.main-container {
+    display: flex;
+}
+
+#cache-content {
+    background: aqua;
+    width: 230px;
+    height: 100%;
+}
+
+#cache-item {
+    padding: 15px 7px 15px 7px;
+    overflow-x: scroll;
+}
+
+#random-content {
+    font-size: 20rem;
+}
+
+button {
+    height: 2rem;
+    width: 12rem;
+    cursor: pointer;
+}
+
+#content-button {
+    padding: 20px;
+}
+
+input {
+    height: 30px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #050505;
+}
+
+p {
+    color: #050505;
+}
