@@ -8,8 +8,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 
 #main-content {
@@ -19,20 +18,22 @@ body {
 
 .main-container {
     display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
 }
 
 #cache-content {
-    background: aqua;
-    width: 230px;
-    height: 100%;
+    background: rgb(73, 153, 173);
+    width: 100%;
+    height: 110px;
 }
 
 #cache-item {
-    padding: 15px 7px 15px 7px;
-    overflow-x: scroll;
+    padding: 1px 7px 0px 7px;
 }
 
-#random-content {
+#random-number {
     font-size: 20rem;
 }
 
@@ -43,11 +44,9 @@ button {
 }
 
 #content-button {
+    display: flex;
+    justify-content: center;
     padding: 20px;
-}
-
-input {
-    height: 30px;
 }
 
 h2 {
@@ -57,4 +56,83 @@ h2 {
 
 p {
     color: #050505;
+}
+
+.number-pipe {
+    color: #1a1a1a;
+}
+
+.content-button .left-button {
+    margin-right: 5px;
+}
+
+.content-button .right-button {
+    margin-left: 5px;
+}
+
+.container-input {
+    display: flex;
+
+}
+
+.content-input-item {
+    display: flex;
+    align-items: center;
+}
+
+.content-input-item input {
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+@media only screen and (max-width:650px) {
+    #random-number {
+        font-size: 10rem;
+    }
+}
+
+.content-number-cache {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    height: 50px;
+}
+
+@media only screen and (max-width:550px) {
+    #random-number {
+        font-size: 8rem;
+    }
+
+    .content-button {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .content-button .left-button {
+        margin-top: 10px;
+        margin-right: 0px;
+    }
+
+    .content-button .right-button {
+        margin-left: 0px;
+    }
+
+    .container-input {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-input-item {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .content-input-item input {
+        height: 30px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 }
