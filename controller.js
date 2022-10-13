@@ -9,12 +9,16 @@ const htmlInputs = `
                     <label for="max">e</label>
                     <input id="max" oninput='validate(event)' class="enters" type="text" />
                 </div>
+            </div>
+            <div>
+                <input type="file" id="file-input" /> 
             </div>`
 const htmlButtonStart = `<button id="random-button" onclick="startRandom()" disabled>Sortear</button>`
 
 const htmlNumber = `
         <div id="random-content">
             <label id="random-number"></label>
+            <label id="selected-participant"></label>
         </div>`
 const htmlButtonStop = `
     <div class="content-button">
@@ -38,6 +42,7 @@ let intervalControler;
 let timeoutControler;
 let cacheNumbersSorted = []
 let rangeNumbers = [];
+let participants = [];
 // Número min e max a serem sorteados
 let MIN = null;
 let MAX = null;
@@ -76,6 +81,16 @@ const getRandomNumber = () =>
             clearInterval(intervalControler);
             try {
                 let numberSorted = randomNumber(true);
+                try {
+                    let numberId = parseInt(numberSorted);
+                    let participantSelected = participants.find(participant => {
+                        return parseInt(participant.id) === numberId
+                    });
+                    document.getElementById("selected-participant").innerHTML = participantSelected.name;
+                } catch (ex) {
+                    document.getElementById("selected-participant").innerHTML = "";
+                    console.log(ex)
+                }
                 document.getElementById("random-number").innerHTML = numberSorted;
                 resolve(numberSorted)
             } catch (e) {
@@ -96,6 +111,7 @@ async function startRandom() {
         document.getElementById("content-button").innerHTML = htmlButtonStop;
         document.getElementById("cache-container").innerHTML = htmlCacheNumbers;
     }
+    document.getElementById("selected-participant").innerHTML = "";
 
     disableButton(true);
 
@@ -148,12 +164,14 @@ function changeCacheHtml(numberSorted) {
 
 }
 
-function clearCacheNumbersSorted() {
+function cleanSession() {
     cacheNumbersSorted = []
+    rangeNumbers = [];
+    participants = [];
 }
 
 function back() {
-    clearCacheNumbersSorted()
+    cleanSession()
     clearInterval(intervalControler);
     clearTimeout(timeoutControler);
     initialContent();
@@ -165,6 +183,7 @@ function initialContent() {
     document.getElementById("main-content").innerHTML = htmlInputs;
     document.getElementById("content-button").innerHTML = htmlButtonStart;
     document.getElementById("cache-container").innerHTML = "";
+    document.getElementById('file-input').addEventListener('change', readSingleFile, false);
 }
 
 function validate(evt) {
@@ -191,6 +210,37 @@ function isEnableButton() {
     const max = document.getElementById("max").value;
 
     return (min != null && max != null && parseInt(min) < parseInt(max));
+}
+
+// Listeners
+function readSingleFile(e) {
+    let file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var contents = e.target.result;
+        parseCSVFile(contents);
+    };
+    reader.readAsText(file);
+}
+
+function parseCSVFile(contents) {
+    try {
+        contents.split("\n").forEach(line => {
+            let lineSplited = line.split(",");
+            let id = lineSplited[0];
+            let name = lineSplited[1];
+            participants.push({
+                id,
+                name
+            });
+        });
+    } catch (e) {
+        participants = []
+    }
 }
 
 initialContent()
