@@ -1,6 +1,15 @@
 body {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 20px;
+    font-family: "Inter";
+    font-size: 14px;
+    color: #464646;
+    background-color: #003566;
+    background-image: url(./asserts/BG.svg), radial-gradient(#0F4C83, #003566);
+    background-size: cover;
+}
+
+input {
+    border-radius: 4px;
+    border: 2px solid#BFBFBF;
 }
 
 .container {
@@ -13,7 +22,11 @@ body {
 
 #main-content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    background-color: #F3F3F3;
+    height: 400px;
+    width: 600px;
+    border-radius: 24px;
 }
 
 .main-container {
@@ -34,13 +47,50 @@ body {
 }
 
 #random-number {
-    font-size: 20rem;
+    font-size: 160px;
+}
+
+#random-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
-    height: 2rem;
-    width: 12rem;
+    font-size: 14px;
+    height: 38px;
+    width: 120px;
     cursor: pointer;
+}
+
+.button-label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 164px;
+    cursor: pointer;
+}
+
+.left-button {
+    margin-right: 5px;
+    border-radius: 200px;
+}
+
+.right-button {
+    margin-left: 5px;
+    border-radius: 200px;
+}
+
+.button-primary {
+    border-style: none;
+    background-color: #FFB800;
+}
+
+.button-secondary {
+    border: 2px solid #FFB800;
+    background-color: transparent;
 }
 
 #content-button {
@@ -54,25 +104,32 @@ h2 {
     color: #050505;
 }
 
-p {
-    color: #050505;
-}
-
 .number-pipe {
     color: #1a1a1a;
 }
 
-.content-button .left-button {
-    margin-right: 5px;
-}
-
-.content-button .right-button {
-    margin-left: 5px;
+input[type="file"] {
+    display: none;
 }
 
 .container-input {
     display: flex;
+}
 
+.container-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+    padding-top: 35px;
+    padding-bottom: 35px;
+}
+
+.content-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .content-input-item {
