@@ -1,30 +1,39 @@
 // HTML
 const htmlInputs = `
-            <div class="container-input">
-                <div class="content-input-item">
-                    <label for="min">Entre</label>
-                    <input id="min" oninput='validate(event)' class="enters" type="text" />
+            <div class="container-box">
+                <img src="./asserts/Brand.svg">
+                <div class="content-box">
+                    <p>Insira os números a serem sorteados</p>
+                    <div class="container-input">
+                        <div class="content-input-item">
+                            <label for="min">Entre</label>
+                            <input id="min" oninput='validate(event)' class="enters" type="text" />
+                        </div>
+                        <div class="content-input-item">
+                            <label for="max">e</label>
+                            <input id="max" oninput='validate(event)' class="enters" type="text" />
+                        </div>
+                    </div>
+                    <div id="content-button"></div>
                 </div>
-                <div class="content-input-item">
-                    <label for="max">e</label>
-                    <input id="max" oninput='validate(event)' class="enters" type="text" />
-                </div>
-            </div>
-            <div>
-                <input type="file" id="file-input" /> 
             </div>`
-const htmlButtonStart = `<button id="random-button" onclick="startRandom()" disabled>Sortear</button>`
+
+const htmlButtonStart = `
+    <label class="button-secondary left-button button-label" id="random-button"><input type="file" id="file-input" />Importar dados</label>
+    <button class="button-primary right-button" id="random-button" onclick="startRandom()" disabled>Sortear</button>`
 
 const htmlNumber = `
-        <div id="random-content">
-            <label id="random-number"></label>
-            <label id="selected-participant"></label>
+        <div id="content-box">
+            <div>
+                <label id="random-number"></label>
+                <label id="selected-participant"></label>
+            <div>
+            <div id="content-button"></div>
         </div>`
+
 const htmlButtonStop = `
-    <div class="content-button">
-        <button class="left-button" onclick="back()">Limpar</button>
-        <button class="right-button" onclick="startRandom()">Sortear Novamente</button>
-    <div>`
+        <button class="button-secondary left-button button-label" onclick="back()">Limpar</button>
+        <button class="button-primary right-button" id="random-button" onclick="startRandom()">Sortear Novamente</button>`
 
 const htmlCacheNumbers = `
             <div id="cache-content">
