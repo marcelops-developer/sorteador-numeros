@@ -19,12 +19,13 @@ const htmlInputs = `
             </div>`
 
 const htmlButtonStart = `
-    <label class="button-secondary left-button button-label" id="random-button"><input type="file" id="file-input" />Importar dados</label>
+    <label class="button-secondary left-button button-label" id="importar-dados" for="file-input">Importar dados</label>
+    <input type="file" id="file-input" accept=".csv" />
     <button class="button-primary right-button" id="random-button" onclick="startRandom()" disabled>Sortear</button>`
 
 const htmlNumber = `
-        <div id="content-box">
-            <div>
+        <div class="container-box">
+            <div class="content-box">
                 <label id="random-number"></label>
                 <label id="selected-participant"></label>
             <div>
@@ -32,16 +33,24 @@ const htmlNumber = `
         </div>`
 
 const htmlButtonStop = `
-        <button class="button-secondary left-button button-label" onclick="back()">Limpar</button>
-        <button class="button-primary right-button" id="random-button" onclick="startRandom()">Sortear Novamente</button>`
+        <button class="button-secondary left-button button-label" onclick="back()">Reiniciar</button>
+        <button class="button-primary right-button" id="random-button" onclick="startRandom()">Sortear novamente</button>`
+
+
+const htmlNoNumber = `
+        <div class="container-box">
+            <div class="content-box">
+                <label>Não há mais números</label>
+            <div>
+            <div id="content-button"></div>
+        </div>`
 
 const htmlCacheNumbers = `
             <div id="cache-content">
-                <div id="cache-item">
-                    <h2>Números Sorteados</h2>
+                    <h2>Números Sorteados:</h2>
                     <div id="cache-content-numbers"></div>
-                <div>
             <div>`
+
 
 // ########## Constantes Globais ##########
 const MAX_DIGITOS_INPUT = 4;
@@ -98,7 +107,7 @@ const getRandomNumber = () =>
                     document.getElementById("selected-participant").innerHTML = participantSelected.name;
                 } catch (ex) {
                     document.getElementById("selected-participant").innerHTML = "";
-                    console.log(ex)
+                    console.debug(ex)
                 }
                 document.getElementById("random-number").innerHTML = numberSorted;
                 resolve(numberSorted)
@@ -131,7 +140,6 @@ async function startRandom() {
         })
         .catch(() => {
             console.debug("Erro ao buscar número aleatório")
-            disableButton(false)
         })
 
 }
@@ -153,13 +161,9 @@ function changeCacheHtml(numberSorted) {
         let htmlCache = "";
         cacheNumbersSorted
             .reverse()
-            .forEach((number, index) => {
-                let pipe = "";
-                if (cacheNumbersSorted.length > 1 && cacheNumbersSorted.length != (index + 1)) {
-                    pipe = `<label class="number-pipe">|</label>&nbsp&nbsp`
-                }
-                let numbermWithPipe = `<label class="number">${number}</label>&nbsp&nbsp` + pipe;
-                htmlCache = htmlCache + `<div>` + numbermWithPipe + `</div>`;
+            .forEach((number) => {
+                let numbermWithPipe = `<label class="number">${number}</label>`;
+                htmlCache = htmlCache + `<div class="number-circle">` + numbermWithPipe + `</div>`;
             })
 
         htmlCache = `<div class="content-number-cache">` + htmlCache + `</div>`;
@@ -167,8 +171,11 @@ function changeCacheHtml(numberSorted) {
         document.getElementById("cache-content").innerHTML = htmlCacheNumbers;
         document.getElementById("cache-content-numbers").innerHTML = htmlCache;
     } else {
-        document.querySelector("button").disabled = false;
-        document.getElementById("main-content").innerHTML = "Não há mais números";
+        console.log("Chegou")
+        document.getElementById("main-content").innerHTML = htmlNoNumber;
+        document.getElementById("content-button").innerHTML = htmlButtonStop;
+
+        disableRightButton(true);
     }
 
 }
@@ -211,7 +218,12 @@ function validate(evt) {
 }
 
 function disableButton(disable) {
+    console.log("Disbled Button: " + disable);
     document.querySelectorAll("button").forEach(button => button.disabled = disable);
+}
+
+function disableRightButton(disable) {
+    document.querySelector("button.right-button").disabled = disable;
 }
 
 function isEnableButton() {
@@ -223,14 +235,18 @@ function isEnableButton() {
 
 // Listeners
 function readSingleFile(e) {
+    console.log("Importando arquivo...");
     let file = e.target.files[0];
     if (!file) {
         return;
     }
 
-    var reader = new FileReader();
+    participants = [];
+    e.target.value = null;
+
+    let reader = new FileReader();
     reader.onload = function (e) {
-        var contents = e.target.result;
+        let contents = e.target.result;
         parseCSVFile(contents);
     };
     reader.readAsText(file);
@@ -247,8 +263,11 @@ function parseCSVFile(contents) {
                 name
             });
         });
+        document.getElementById("importar-dados").textContent = `Subistituir arquivo`;
+        document.getElementById("importar-dados").style.color = "green";
     } catch (e) {
         participants = []
+        alert("Arquivo com erro!")
     }
 }
 
